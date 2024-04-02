@@ -1,0 +1,19 @@
+@startuml C4_Elements
+
+
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Web-Powered Email System
+
+Person(user, "User", "People who use the app to manage email communications.")
+
+
+System(emailApp, "Email Application", "An application for managing personal emails in the style of Microsoft Outlook.")
+
+System(database, "Database", "Stores user credentials and all app data.")
+
+Rel(user, emailApp, "Access emails on a website")
+Rel(emailApp, database, "Retrieve user data.")
+
+@enduml
