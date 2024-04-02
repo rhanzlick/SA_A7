@@ -4,20 +4,23 @@
 !include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 !include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Web-Powered Email System
+title Web-Powered Email System (MVVM Architecture)
 
 Person(user, "User", "People who use the app to manage email communications.")
 
 
-System_Boundary(emailApp, "Email Application", "An application for managing personal emails in the style of Microsoft Outlook."){
-    System(webApp, "Web Site", "The web version of the email application.")
-    System(desktopApp, "Desktop App", "Desktop App version of the email system, compatible with Windows, Mac, and Linux")
+System_Boundary(emailApp, "Email Application", "A application for managing personal emails in the style of Microsoft Outlook."){
+    System(webApp, "Web Site", "The user-interface accessible as website version of the email application. This constitutes a 'View' in the MVC/MVVM architecture.")
+    System(desktopApp, "Desktop App", "Desktop App user-interface version of the email system, compatible with Windows, Mac, and Linux. This constitutes a 'View' in the MVC/MVVM architecture.")
+    System(webAPI, "API", "The API constitutes the 'ViewModel' - ViewModel is similar to a Controller in that it provides an abstraction between UI elements and back-end Model/Data objects. Often performs business logic on all of the Model/data objects.")
 }
 
-System(database, "Database", "Stores user credentials and all app data.")
+System(database, "Database", "Stores user credentials and all app data. This is persistant storage of model/data objects.")
 
-Rel(user, webApp, "Access emails on a website")
-Rel(user, desktopApp, "Access emails from a personal computer with the desktop app.")
-Rel(emailApp, database, "Retrieve user data.")
+Rel(user, webApp, "Access and manage emails on a website")
+Rel(user, desktopApp, "Access and manage emails from a personal computer with the desktop app.")
+Rel(webApp, webAPI, "Website sends and retrieves data through API.")
+Rel(desktopApp, webAPI, "Desktop app sends and retrieves data via HTTP requests to the API.")
+Rel(webAPI, database, "Retrieve user data.")
 
 @enduml
